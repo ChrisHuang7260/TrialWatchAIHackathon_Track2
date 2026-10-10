@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Adonis case review — FairTrial</title>
+  <style>
+    :root{--ink:#222123;--red:#f2644f;--blue:#334ed8;--line:#ddd8d2}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:155px}
+    body{margin:0;background:#eeebe5;color:var(--ink);font:14px Arial,sans-serif}
+    button,a,input{font:inherit} button,a{touch-action:manipulation} button{cursor:pointer} a{color:inherit}
+    button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+    .top{position:sticky;top:0;z-index:10;background:#faf8f3;border-bottom:1px solid var(--line)}
+    header{height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;gap:20px}
+    .brand{font-size:22px;font-weight:800;text-decoration:none;letter-spacing:-1px}.brand span{color:var(--red)}
+    .back{font-size:12px;text-decoration:none;border:1px solid #c9c2bd;padding:10px 15px}
+    .title{font-size:12px;color:#84797f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45vw}
+    .toolbar{padding:13px 32px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e7e1da;gap:20px}
+    .badge{font-size:9px;letter-spacing:1px;background:#faddd3;padding:6px 9px}
+    .tools{display:flex;align-items:center;gap:15px;font-size:11px}.tools button{border:0;background:none;color:var(--blue);font-size:11px}.tools label{display:flex;gap:7px;align-items:center}
+    .layout{max-width:1410px;margin:auto;padding:30px;display:grid;grid-template-columns:170px minmax(0,720px) minmax(280px,330px);gap:25px;align-items:start}
+    .outline{position:sticky;top:146px}.eyebrow{font-size:9px;font-weight:700;letter-spacing:1.5px;color:#96878b;margin-bottom:18px}
+    .outline a{display:block;text-decoration:none;padding:13px 10px;border-left:2px solid #d8cfc8;font-size:11px;color:#8c7f83}
+    .outline a.active{border-color:var(--red);color:var(--ink);background:#f7e4db}.outline small{display:block;font-size:9px;color:#a18b82;margin-top:5px}
+    .tip{font-size:11px;line-height:1.7;color:#9b8c8c;margin-top:27px}.pages{min-width:0}
+    .record-heading{font-size:10px;color:#8c8181;display:flex;justify-content:space-between;gap:15px;margin-bottom:15px}
+    .sheet{background:#fffdf8;box-shadow:0 7px 22px #2920180a;border:1px solid #dfd9d2;padding:45px 48px;margin-bottom:26px;scroll-margin-top:150px;min-height:670px}
+    .sheet-head{display:flex;justify-content:space-between;font-size:8px;letter-spacing:1.4px;color:#9d9290;border-bottom:1px solid #e7e0d6;padding-bottom:17px}
+    .sheet h1{font:28px/1.15 Georgia,serif;text-align:center;margin:29px 0 12px}.sheet h2{font:21px Georgia,serif;margin:27px 0 20px}
+    .sheet-foot{display:flex;justify-content:space-between;border-top:1px solid #e9e0d6;margin-top:30px;padding-top:16px;font-size:8px;color:#9f928d}
+    .highlight{border:0;background:#ffe0ce;color:#6f3c26;display:inline;text-align:left;padding:3px 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone;font:inherit;border-bottom:2px solid #e5a084;cursor:pointer}
+    .highlight.active{background:#ffc2a5;border-color:#ec674d}.hide-highlights .highlight{background:none;border-color:transparent;color:inherit}
+    .float{position:sticky;top:147px;background:white;box-shadow:0 12px 35px #2a203215;border:1px solid #ddd6d6;border-top:4px solid var(--blue);padding:25px;max-height:calc(100vh - 177px);overflow:auto}
+    .float-top{display:flex;justify-content:space-between;align-items:center;gap:15px;font-size:9px;color:#a1877c}.float-top button{font-size:11px;background:none;border:0;color:var(--blue);padding:5px}
+    .float h2{font-size:26px;line-height:1.13;letter-spacing:-.7px;margin:17px 0}.finding-status{display:block;font-size:9px;color:#51629e;background:#edf0ff;padding:7px 9px;margin:0 0 15px}
+    .label{font-size:9px;letter-spacing:1.5px;color:#9b8d92;margin:17px 0 9px}.basis{color:var(--blue);font-size:12px;text-underline-offset:4px;line-height:1.6}
+    .float p{font-size:12px;line-height:1.8;color:#7a6d73}.float details{margin-top:18px;border-top:1px solid #e7e0db;padding-top:17px}.float summary{font-size:11px;cursor:pointer}
+    .reviewed{width:100%;border:1px solid #cbd2ed;background:#f4f5ff;padding:12px;margin-top:17px;color:var(--blue);font-size:11px}
+    .navflags{display:flex;justify-content:space-between;border-top:1px solid #e6ddd5;padding-top:15px;margin-top:19px;align-items:center;font-size:10px;color:#9d8e91}.navflags button{background:none;border:1px solid #ddd2cd;width:30px;height:28px}
+    .status{font-size:9px;color:#9c8e90;margin-top:16px;text-align:center}.notice{background:#fff5d7;border:1px solid #e6d7ac;padding:16px;font-size:11px;line-height:1.7;color:#8a743d;margin-bottom:20px}
+    .filetext{white-space:pre-wrap;overflow-wrap:anywhere;font:15px/1.9 Georgia,serif;padding:35px;background:#fffdf8;border:1px solid #dfd9d2}.pdf{width:100%;height:calc(100vh - 208px);min-height:500px;border:1px solid #d8d0c7;background:white}
+    .openfile{display:inline-block;margin-top:13px;color:var(--blue);font-size:11px}.empty h2{font-size:24px}.empty a{display:inline-block;background:var(--blue);color:white;text-decoration:none;padding:13px;font-size:11px;margin-top:10px}
+    .end{text-align:center;font-size:10px;color:#9e8f8f;margin:30px}.end a{display:inline-block;margin-top:13px;color:var(--blue)}[hidden]{display:none!important}
+
+    .decision-cover{font-family:Georgia,serif;text-align:center;min-height:790px}.court-name{font:700 12px/1.7 Arial,sans-serif;letter-spacing:1.4px;margin-top:45px}
+    .docket{font:11px Arial,sans-serif;color:#817679;margin:35px 0 20px}.decision-cover h1{font:38px/1.16 Georgia,serif;margin:20px 0}.decision-cover h1 span{font-size:20px;font-style:italic;color:#98898a}
+    .case-type{font:700 12px Arial,sans-serif;letter-spacing:5px;margin:29px 0}.case-parties{font:12px/1.8 Georgia,serif;max-width:480px;margin:0 auto}
+    .source-card{text-align:left;background:#eef0ff;border-left:3px solid var(--blue);padding:15px 17px;margin:37px auto 0;max-width:390px;font:10px/1.7 Arial,sans-serif}.source-card a{color:var(--blue)}
+    .record-note{font:9px/1.6 Arial,sans-serif;color:#9a8b8c;margin:22px auto 0;max-width:430px}.resolution-sheet{min-height:780px}.page-title{font:22px/1.25 Georgia,serif!important;text-align:left!important;margin:27px 0 23px!important}
+    .resolution-body{font:14px/1.82 Georgia,serif;color:#51494a}.record-byline{font-weight:bold}.record-section{text-align:center;font:700 15px Georgia,serif;margin:27px 0}
+    .record-paragraph{position:relative;margin:15px 0;padding-left:37px}.paragraph-number{position:absolute;left:0;top:2px;font:9px Arial,sans-serif;color:#ad9d98}
+    .court-quote{margin:18px 0 18px 38px;padding:14px 18px;border-left:2px solid #d4c9bd;background:#f7f3ec;font-size:12px;line-height:1.75}.court-quote .resolution-highlight{display:block;margin:10px 0}
+    .resolution-highlight{position:relative;border:0;border-bottom:2px solid #e7a08a;background:#ffe0d4;color:#5e3328;padding:2px 3px 2px 24px;text-align:left;font:inherit;line-height:inherit;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+    .resolution-highlight.active{background:#ffc4ad;border-color:var(--red)}.violation-number{position:absolute;left:3px;top:.34em;width:16px;height:16px;border-radius:50%;display:inline-grid;place-items:center;background:var(--red);color:white;font:700 9px Arial,sans-serif}
+    .hide-highlights .resolution-highlight{background:transparent;border-color:transparent;color:inherit}.hide-highlights .violation-number{opacity:.25}
+    .disposition{white-space:pre-line;font-weight:bold;text-align:center;margin:35px 0;line-height:2}.footnote-note,.source-note{white-space:pre-line;font:10px/1.7 Arial,sans-serif;color:#827678;border-top:1px solid #e4ddd4;padding-top:15px;margin-top:25px}
+    .source-note{background:#eef0ff;border:0;border-left:3px solid var(--blue);padding:15px;color:#626b91}.source-links{display:grid;gap:10px;margin-top:26px}.source-links a{font:11px Arial,sans-serif;color:var(--blue)}
+
+    @media(max-width:1120px){.layout{grid-template-columns:minmax(0,1fr) 310px;padding:25px;gap:22px}.outline{display:none}.sheet{padding:35px;min-height:600px}}
+    @media(max-width:720px){
+      html{scroll-padding-top:140px}header{padding:0 16px;height:60px}.title{display:none}.back{font-size:10px}.toolbar{padding:12px 16px;gap:10px}.tools{gap:10px;font-size:9px}.tools button{font-size:9px}.badge{font-size:8px}
+      .layout{display:flex;flex-direction:column;padding:15px;gap:15px}.pages{width:100%;padding-bottom:40px}.sheet{padding:26px 23px;min-height:0}.sheet h1{font-size:24px}
+      .float{position:fixed;top:auto;bottom:0;left:0;right:0;z-index:20;max-height:49vh;padding:18px 23px;border-radius:12px 12px 0 0;border-top-width:3px;box-shadow:0 -8px 35px #28203922}.float h2{font-size:22px;margin:12px 0}.float p{font-size:11px;line-height:1.6}.float .label{margin-top:11px}.float details{margin-top:11px;padding-top:10px}
+      .reviewed{margin-top:10px;padding:9px}.navflags{margin-top:11px;padding-top:11px}.status{margin-top:9px}.sheet-foot{font-size:7px}.record-heading{font-size:9px}.mobilepad{padding-bottom:50vh}.float.empty{position:static;width:100%;max-height:none}.filetext{padding:23px}.pdf{height:68vh;min-height:450px}
+      .decision-cover{min-height:0}.court-name{margin-top:30px}.decision-cover h1{font-size:31px}.resolution-sheet{min-height:0}.record-paragraph{padding-left:28px}.resolution-body{font-size:13px}.court-quote{margin-left:25px;padding:12px}.resolution-highlight{padding-left:22px}.violation-number{top:.27em}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <header>
+      <a class="brand" href="index.html">FairTrial <span>↗</span></a>
+      <span class="title" id="filename">Adonis v. Tesoro · G.R. No. 182855</span>
+      <a class="back" href="index.html">← Back to main page</a>
+    </header>
+    <div class="toolbar">
+      <span class="badge" id="mode">ACTUAL CASE SAMPLE</span>
+      <div class="tools">
+        <span id="count">2 confirmed violations · 7 linked passages</span>
+        <label id="highlight-toggle"><input id="toggle" type="checkbox" checked> Highlights</label>
+        <button id="show-panel" onclick="selectConcern(current,false)">Show analysis ↗</button>
+      </div>
+    </div>
+  </div>
+  <main class="layout">
+    <aside class="outline" id="outline">
+      <div class="eyebrow">RIGHTS MAP</div>
+      <a href="#flag0" id="outline0">01 &nbsp; Freedom of expression<small>4 linked passages</small></a>
+      <a href="#flag1" id="outline1">02 &nbsp; Counsel and presence<small>3 linked passages</small></a>
+      <p class="tip">Every passage carries the same number as the violation it supports.</p>
+      <p class="tip">Primary record: Philippine Supreme Court resolution.<br>Related finding: UN Human Rights Committee Views.</p>
+    </aside>
+    <div class="pages" id="pages">
+      <div class="record-heading"><span>ADONIS, ET AL. v. TESORO · G.R. NO. 182855</span><span>Complete resolution + linked HRC findings</span></div>
+      <div id="sheets"></div>
+      <div class="end">End of case sample<br><a href="index.html">← Return to main page</a></div>
+    </div>
+    <aside class="float" id="panel" aria-label="Selected violation analysis" aria-live="polite">
+      <div class="float-top"><span id="source">VIOLATION 1 · LINKED PASSAGES</span><button onclick="closePanel()" aria-label="Close analysis">Close ×</button></div>
+      <h2 id="right"></h2>
+      <span class="finding-status" id="finding-status">Violation found by the UN Human Rights Committee</span>
+      <div class="label">LEGAL BASIS</div>
+      <a class="basis" id="basis" href="https://docs.un.org/en/CCPR/C/103/D/1815/2008/REV.1" target="_blank" rel="noopener"></a>
+      <div class="label">ANALYSIS</div>
+      <p id="reason"></p>
+      <details><summary>Scope and verification ↓</summary><p id="verify"></p></details>
+      <button class="reviewed" id="reviewed" onclick="markReviewed()">Mark as reviewed ✓</button>
+      <div class="navflags"><button onclick="navigateConcern(-1)" aria-label="Previous violation">←</button><span id="position">Violation 1 of 2</span><button onclick="navigateConcern(1)" aria-label="Next violation">→</button></div>
+      <div class="status" id="status">0 of 2 violations reviewed</div>
+    </aside>
+  </main>
+  <script src="storage.js"></script>
+  <script src="review-data.js"></script>
+  <script src="review.js"></script>
+</body>
+</html>
